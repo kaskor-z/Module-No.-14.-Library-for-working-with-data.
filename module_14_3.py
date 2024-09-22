@@ -24,12 +24,17 @@ Button_3 = InlineKeyboardButton(text="Рассчитать норму калор
 Button_4 = InlineKeyboardButton(text="Формулы расчёта", callback_data="formulas")
 kb_2.row(Button_3, Button_4)
 
-kb_3 = InlineKeyboardMarkup()
-Button_1_3 = InlineKeyboardButton(text="Product_1", callback_data="product_buying")
-Button_2_3 = InlineKeyboardButton(text="Product_2", callback_data="product_buying")
-Button_3_3 = InlineKeyboardButton(text="Product_3", callback_data="product_buying")
-Button_4_3 = InlineKeyboardButton(text="Product_4", callback_data="product_buying")
-kb_3.row(Button_1_3, Button_2_3, Button_3_3, Button_4_3)
+kb_3 = InlineKeyboardMarkup(
+    inline_keyboard=[
+        [
+            InlineKeyboardButton(text="Product_1", callback_data="product_buying"),
+            InlineKeyboardButton(text="Product_2", callback_data="product_buying"),
+            InlineKeyboardButton(text="Product_3", callback_data="product_buying"),
+            InlineKeyboardButton(text="Product_4", callback_data="product_buying")
+        ]
+    ], resize_keyboard=True, row_width=4
+)
+
 
 class UserState(StatesGroup):
     age = State()
