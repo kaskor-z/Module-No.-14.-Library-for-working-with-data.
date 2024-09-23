@@ -1,9 +1,9 @@
 import sqlite3
 
 TABLE_NAME = "Products"
+USER_TABLE_NAME = "Users"
 
-
-def initiate_db(Table_Name):  # , *use_data):
+def initiate_db(Table_Name):
     connection = sqlite3.connect("not_telegram_2.db")
     cursor = connection.cursor()
     cursor.execute(f'CREATE TABLE IF NOT EXISTS {Table_Name}('
@@ -14,6 +14,41 @@ def initiate_db(Table_Name):  # , *use_data):
                    f'price INTEGER NOT NULL'
                    f')'
                    )
+    connection.commit()
+    connection.close()
+
+
+def initiate_db_Usr(User_Table_Name):
+    connection = sqlite3.connect("not_telegram_3.db")
+    cursor = connection.cursor()
+    cursor.execute(f'CREATE TABLE IF NOT EXISTS {User_Table_Name}('
+                   f'id INTEGER PRIMARY KEY, '
+                   f'username TEXT NOT NULL, '
+                   f'email TEXT NOT NULL, '
+                   f'age INTEGER NOT NULL, '
+                   f'balance INTEGER NOT NULL'
+                   f')'
+                   )
+    connection.commit()
+    connection.close()
+
+
+def add_user(*User_Data):
+    connection = sqlite3.connect("not_telegram_3.db")
+    cursor = connection.cursor()
+    cursor.execute(f"INSERT INTO {USER_TABLE_NAME} (username, email, age, balance) "
+                   f"VALUES(?, ?, ?, ?)", User_Data)
+    connection.commit()
+    connection.close()
+
+
+def is_included(username):
+    connection = sqlite3.connect("not_telegram_3.db")
+    cursor = connection.cursor()
+    cursor.execute(f"SELECT id FROM {USER_TABLE_NAME} WHERE username=?", (username,))
+    User_exists = cursor.fetchone()
+    return False if User_exists == None else True
+
     connection.commit()
     connection.close()
 
@@ -35,6 +70,7 @@ def get_all_products():
     return cursor.fetchall(); connection.close()
 
 
+initiate_db_Usr(USER_TABLE_NAME)
 initiate_db(TABLE_NAME)
 set_products("Витамин Д3 D3 5000 МЕ НАУ 120 капсул",
              "Витамин Д3 — биологически активная добавка к пище, помогающая "
